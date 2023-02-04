@@ -1,0 +1,17 @@
+server:
+  port: 9191
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: USER-SERVICE
+          uri: http://localhost:8001/
+          predicates:
+            - Path=/users/**
+        - id: PRODUCT-SERVICE
+          uri: http://localhost:8002/
+          predicates:
+            - Path=/products/**
