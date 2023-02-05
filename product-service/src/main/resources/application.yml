@@ -1,11 +1,11 @@
 spring:
   application:
-    name: PRODUCTSERVICE
+    name: PRODUCT-SERVICE
   datasource:
-    url: jdbc:mysql://localhost:3306/ms_arch
-    username: terareum
-    password: Terareum@2023
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://storage-service/ms_arch?createDatabaseIfNotExist=true
+    username: malware
+    password: userpassword
+    driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
     generate-dll: true
     hibernate:

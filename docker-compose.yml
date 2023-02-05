@@ -1,0 +1,50 @@
+version: "3"
+services:
+  storage-service:
+    container_name: mysql
+    image: mysql
+    environment:
+      MYSQL_USER: malware
+      MYSQL_DATABASE: ms_arch
+      MYSQL_PASSWORD: userpassword
+      MYSQL_ROOT_PASSWORD: password
+
+    healthcheck:
+      test: ["CMD", "mysqladmin" , "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  api-gateway:
+    container_name: api-gateway
+    image: api-gateway
+    ports:
+      - "8000:8000"
+    build:
+      context: api-gateway
+    depends_on:
+      storage-service:
+        condition: service_healthy
+
+  auth-service:
+    container_name: auth-service
+    image: auth-service
+    build:
+      context: auth-service
+    depends_on:
+      storage-service:
+        condition: service_healthy
+
+  product-service:
+    container_name: product-service
+    image: product-service
+    build:
+      context: product-service
+    depends_on:
+      auth-service:
+        condition: service_started
+      storage-service:
+        condition: service_healthy
+
+volumes:
+  mysql_data:

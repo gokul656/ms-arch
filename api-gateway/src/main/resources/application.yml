@@ -1,5 +1,5 @@
 server:
-  port: 9191
+  port: 8000
 
 spring:
   application:
@@ -8,10 +8,10 @@ spring:
     gateway:
       routes:
         - id: USER-SERVICE
-          uri: http://localhost:8001/
+          uri: http://auth-service:8001
           predicates:
             - Path=/users/**
         - id: PRODUCT-SERVICE
-          uri: http://localhost:8002/
+          uri: http://product-service:8002
           predicates:
             - Path=/products/**
