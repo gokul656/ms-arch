@@ -8,7 +8,6 @@ services:
       MYSQL_DATABASE: ms_arch
       MYSQL_PASSWORD: userpassword
       MYSQL_ROOT_PASSWORD: password
-
     healthcheck:
       test: ["CMD", "mysqladmin" , "ping", "-h", "localhost"]
       interval: 10s
@@ -31,6 +30,11 @@ services:
     image: auth-service
     build:
       context: auth-service
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://auth-service:8001/actuator/health"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
     depends_on:
       storage-service:
         condition: service_healthy
@@ -42,7 +46,7 @@ services:
       context: product-service
     depends_on:
       auth-service:
-        condition: service_started
+        condition: service_healthy
       storage-service:
         condition: service_healthy
 
