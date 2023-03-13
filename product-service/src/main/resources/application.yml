@@ -10,7 +10,8 @@ spring:
     generate-dll: true
     hibernate:
       ddl-auto: update
-
+  web.origins: > 
+    http://localhost:8001
 server:
   port: 8002
 
