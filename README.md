@@ -1,6 +1,6 @@
 # ms-arch
 
-A project to demonstrate microservie architecture. This project includes features like
+A project to demonstrate microservice architecture. This project includes features like
 - CORS restrictions
 - Service discovery
 - Ditributed tracing
