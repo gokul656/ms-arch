@@ -14,7 +14,8 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="api-gateway" target="11" />
-      <module name="auth-service" target="17" />
+      <module name="auth-service" target="11" />
+      <module name="ms-arch" target="11" />
       <module name="product-service" target="11" />
     </bytecodeTargetLevel>
   </component>
