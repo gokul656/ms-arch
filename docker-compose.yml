@@ -1,5 +1,17 @@
-version: "3"
+version: "3.2"
+
+x-common-configs: &default-configs
+  TRACING_ENABLED: true
+
 services:
+  tracing-service:
+    container_name: zipkin
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    environment:
+      *default-configs
+
   storage-service:
     container_name: mysql
     image: mysql
@@ -14,6 +26,14 @@ services:
       timeout: 10s
       retries: 5
 
+  cache-service:
+    container_name: redis
+    image: redis
+    ports:
+      - "6379:6379"
+    environment:
+      TRACING_ENABLED: true
+
   api-gateway:
     container_name: api-gateway
     image: api-gateway
@@ -24,12 +44,16 @@ services:
     depends_on:
       storage-service:
         condition: service_healthy
+    environment:
+      *default-configs
 
   auth-service:
     container_name: auth-service
     image: auth-service
     build:
       context: auth-service
+    environment:
+      *default-configs
     healthcheck:
       test: ["CMD", "curl", "--fail", "--silent", "http://auth-service:8001/actuator/health"]
       interval: 5s
@@ -44,6 +68,8 @@ services:
     image: product-service
     build:
       context: product-service
+    environment:
+      *default-configs
     depends_on:
       auth-service:
         condition: service_healthy

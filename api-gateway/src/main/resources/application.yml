@@ -4,6 +4,14 @@ server:
 spring:
   application:
     name: API-GATEWAY
+
+  # Distributed tracing
+  sleuth:
+    enabled: ${TRACING_ENABLED}
+  zipkin:
+    baseUrl: http://tracing-service:9411/
+
+  # Routes
   cloud:
     gateway:
       routes:

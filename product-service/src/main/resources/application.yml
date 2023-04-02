@@ -1,6 +1,11 @@
+server:
+  port: 8002
+
 spring:
   application:
     name: PRODUCT-SERVICE
+
+  # Database
   datasource:
     url: jdbc:mysql://storage-service/ms_arch?createDatabaseIfNotExist=true
     username: malware
@@ -8,9 +13,26 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
     generate-dll: true
+    show-sql: true
     hibernate:
       ddl-auto: update
 
-server:
-  port: 8002
+  # CORS
+  web.origins: > 
+    http://localhost:8001
 
+  # Distributed tracing
+  zipkin:
+    baseUrl: http://tracing-service:9411/
+  sleuth:
+    enabled: ${TRACING_ENABLED}
+
+  # Cache
+  redis:
+    host: cache-service
+    port: 6379
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+      time-to-live: 5000
