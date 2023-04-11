@@ -30,9 +30,9 @@ services:
     container_name: redis
     image: redis
     ports:
-      - "6379:6379"
+      - ":6379"
     environment:
-      TRACING_ENABLED: true
+      *default-configs
 
   api-gateway:
     container_name: api-gateway
