@@ -1,5 +1,10 @@
 server:
   port: 8000
+  ssl:
+    enabled: ${SSL_ENABLED:true}
+    key-store: ${KEYSTORE_PATH}
+    key-store-password: ${KEYSTORE_PASSWORD:gokul656}
+    key-store-type: PKCS12
 
 spring:
   application:
@@ -7,7 +12,7 @@ spring:
 
   # Distributed tracing
   sleuth:
-    enabled: ${TRACING_ENABLED}
+    enabled: ${TRACING_ENABLED:false}
   zipkin:
     baseUrl: http://tracing-service:9411/
 

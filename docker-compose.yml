@@ -1,8 +1,5 @@
 version: "3.2"
 
-x-common-configs: &default-configs
-  TRACING_ENABLED: true
-
 services:
   tracing-service:
     container_name: zipkin
@@ -10,7 +7,7 @@ services:
     ports:
       - "9411:9411"
     environment:
-      *default-configs
+      TRACING_ENABLED: true
 
   storage-service:
     container_name: mysql
@@ -32,7 +29,7 @@ services:
     ports:
       - ":6379"
     environment:
-      *default-configs
+      TRACING_ENABLED: true
 
   api-gateway:
     container_name: api-gateway
@@ -45,7 +42,12 @@ services:
       storage-service:
         condition: service_healthy
     environment:
-      *default-configs
+      HTTP2_ENABLED: true
+      SSL_ENABLED:
+      KEYSTORE_PASSWORD:
+      KEYSTORE_PATH: /data/keystore.p12
+    volumes:
+      - ${KEYSTORE_PATH}:/data/keystore.p12
 
   auth-service:
     container_name: auth-service
@@ -53,7 +55,7 @@ services:
     build:
       context: auth-service
     environment:
-      *default-configs
+      TRACING_ENABLED: true
     healthcheck:
       test: ["CMD", "curl", "--fail", "--silent", "http://auth-service:8001/actuator/health"]
       interval: 5s
@@ -69,7 +71,7 @@ services:
     build:
       context: product-service
     environment:
-      *default-configs
+      TRACING_ENABLED: true
     depends_on:
       auth-service:
         condition: service_healthy

@@ -25,7 +25,7 @@ spring:
   zipkin:
     baseUrl: http://tracing-service:9411/
   sleuth:
-    enabled: ${TRACING_ENABLED}
+    enabled: ${TRACING_ENABLED:false}
 
   # Cache
   redis:
