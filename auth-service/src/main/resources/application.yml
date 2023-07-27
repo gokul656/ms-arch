@@ -1,5 +1,5 @@
 server:
-  port: 8001
+  port: ${SERVER_PORT:8001}
 
 spring:
   application:
@@ -29,3 +29,28 @@ spring:
   zipkin:
     baseUrl: http://tracing-service:9411/
 
+  cloud:
+    # Service discovery
+    consul:
+      host: discovery-service
+      port: 8500
+      discovery:
+        instance-id: ${spring.application.name}:${random.int[1,999999]}
+
+# Health check endpoints
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+# Resilience
+resilience4j:
+  retry:
+    instances:
+      productService:
+        maxRetryAttempts: 3
+        waitDuration: 2s

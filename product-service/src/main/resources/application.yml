@@ -1,5 +1,5 @@
 server:
-  port: 8002
+  port: ${SERVER_PORT:8002}
 
 spring:
   application:
@@ -12,8 +12,9 @@ spring:
     password: userpassword
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
+    open-in-view: false
     generate-dll: true
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: update
 
@@ -36,3 +37,21 @@ spring:
     redis:
       cache-null-values: true
       time-to-live: 5000
+
+  cloud:
+    # Service discovery
+    consul:
+      host: discovery-service
+      port: 8500
+      discovery:
+        instance-id: ${spring.application.name}:${random.int[1,999999]}
+
+# Health check endpoints
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
