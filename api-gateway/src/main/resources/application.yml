@@ -1,7 +1,7 @@
 server:
   port: 8000
   ssl:
-    enabled: ${SSL_ENABLED:true}
+    enabled: ${SSL_ENABLED:false}
     key-store: ${KEYSTORE_PATH}
     key-store-password: ${KEYSTORE_PASSWORD:gokul656}
     key-store-type: PKCS12
