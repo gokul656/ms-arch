@@ -3,6 +3,10 @@
   <component name="AdditionalModuleElements">
     <content url="file://$MODULE_DIR$" dumb="true">
       <excludeFolder url="file://$MODULE_DIR$/.idea/codeStyles" />
+      <excludeFolder url="file://$MODULE_DIR$/payment-service/app" />
+      <excludeFolder url="file://$MODULE_DIR$/payment-service/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/payment-service/cmd" />
+      <excludeFolder url="file://$MODULE_DIR$/payment-service/proto" />
     </content>
   </component>
 </module>

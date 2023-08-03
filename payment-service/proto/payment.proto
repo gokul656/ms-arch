@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option go_package = "../app/protobufs";
+
+enum PaymentAction {
+  DEPOSIT = 0;
+  WITHDRAW = 1;
+}
+
+message PaymentRequest {
+  string uid = 1;
+  string requestId = 2;
+  uint64 amount = 3;
+  PaymentAction paymentAction = 4;
+}
+
+service PaymentService {
+  rpc ProcessRequest(PaymentRequest) returns (PaymentRequest) {}
+}

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option go_package = "../app/protobufs";
+
+message GreetRequest { string message = 1; }
+
+service GreetService {
+  rpc SayHello(GreetRequest) returns (GreetRequest) {}
+}
