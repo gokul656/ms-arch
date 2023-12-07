@@ -2,55 +2,6 @@ server:
   port: ${SERVER_PORT:8001}
 
 spring:
+  profiles.active: ${ACTIVE_PROFILE:dev}
   application:
-    name: AUTH-SERVICE
-
-  # Database
-  datasource:
-    url: jdbc:mysql://storage-service/ms_arch?createDatabaseIfNotExist=true
-    username: malware
-    password: userpassword
-    driverClassName: com.mysql.cj.jdbc.Driver
-  jpa:
-    show-sql: false
-    open-in-view: false
-    generate-dll: true
-    hibernate:
-      ddl-auto: update
-
-  # Distributed Locking & caching
-  redis:
-    host: caching-service
-    port: 6379
-
-  # Distributed tracing
-  sleuth:
-    enabled: ${TRACING_ENABLED:false}
-  zipkin:
-    baseUrl: http://tracing-service:9411/
-
-  cloud:
-    # Service discovery
-    consul:
-      host: discovery-service
-      port: 8500
-      discovery:
-        instance-id: ${spring.application.name}:${random.int[1,999999]}
-
-# Health check endpoints
-management:
-  endpoint:
-    shutdown:
-      enabled: true
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-
-# Resilience
-resilience4j:
-  retry:
-    instances:
-      productService:
-        maxRetryAttempts: 3
-        waitDuration: 2s
+    name: auth-service

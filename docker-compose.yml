@@ -20,10 +20,10 @@ services:
     environment:
       MYSQL_USER: malware
       MYSQL_DATABASE: ms_arch
-      MYSQL_PASSWORD: userpassword
+      MYSQL_PASSWORD: super-secret-pwd
       MYSQL_ROOT_PASSWORD: password
     healthcheck:
-      test: ["CMD", "mysqladmin" , "ping", "-h", "localhost"]
+      test: [ "CMD", "mysqladmin" , "ping", "-h", "localhost" ]
       interval: 10s
       timeout: 10s
       retries: 5
@@ -65,15 +65,16 @@ services:
         limits:
           cpus: "1"
       restart_policy:
-          condition: on-failure
-          max_attempts: 10
-          delay: 20s
+        condition: on-failure
+        max_attempts: 10
+        delay: 20s
     environment:
       SERVER_PORT: 8000
       HTTP2_ENABLED: false
       SSL_ENABLED: false
       KEYSTORE_PATH: /data/keystore.p12
       KEYSTORE_PASSWORD:
+      ACTIVE_PROFILE: "prod"
     volumes:
       - ./keystore.p12:/data/keystore.p12
 
@@ -84,7 +85,7 @@ services:
     ports:
       - ":8001"
     deploy:
-      replicas: 2
+      replicas: 1
       resources:
         limits:
           memory: 500M
@@ -100,16 +101,21 @@ services:
       retries: 5
     depends_on:
       - storage-service
+      - tracing-service
+      - cache-service
+      - discovery-service
     environment:
       SERVER_PORT: 80
       TRACING_ENABLED: "true"
+      DISCOVERY_ENABLED: "true"
+      ACTIVE_PROFILE: "prod"
 
   product-service:
     image: product-service
     build:
       context: product-service
     deploy:
-      replicas: 2
+      replicas: 1
       resources:
         limits:
           memory: 500M
@@ -118,17 +124,21 @@ services:
         condition: on-failure
         max_attempts: 10
         delay: 20s
-    depends_on:
-      - auth-service
-      - storage-service
+    environment:
+      SERVER_PORT: 80
+      TRACING_ENABLED: "true"
+      DISCOVERY_ENABLED: "true"
+      ACTIVE_PROFILE: "prod"
     healthcheck:
       test: [ "CMD", "curl", "--fail", "--silent", "http://auth-service:8001/actuator/health" ]
       interval: 5s
       timeout: 10s
       retries: 5
-    environment:
-      SERVER_PORT: 80
-      TRACING_ENABLED: "true"
+    depends_on:
+      - storage-service
+      - tracing-service
+      - cache-service
+      - discovery-service
 
 volumes:
   mysql_data:

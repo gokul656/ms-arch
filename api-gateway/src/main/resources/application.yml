@@ -1,37 +1,7 @@
 server:
   port: ${SERVER_PORT:8000}
-  ssl:
-    enabled: ${SSL_ENABLED:false}
-    key-store: ${KEYSTORE_PATH}
-    key-store-password: ${KEYSTORE_PASSWORD:gokul656}
-    key-store-type: PKCS12
 
 spring:
+  profiles.active: ${ACTIVE_PROFILE:dev}
   application:
-    name: API-GATEWAY
-
-  # Distributed tracing
-  sleuth:
-    enabled: ${TRACING_ENABLED:false}
-  zipkin:
-    baseUrl: http://tracing-service:9411/
-
-  cloud:
-    consul:
-      host: discovery-service
-      port: 8500
-      config:
-        enabled: false
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-      routes:
-        - id: USER-SERVICE
-          uri: lb://auth-service
-          predicates:
-            - Path=/users/**
-        - id: PRODUCT-SERVICE
-          uri: lb://product-service
-          predicates:
-            - Path=/products/**
+    name: api-gateway

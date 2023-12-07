@@ -1,0 +1,38 @@
+server:
+  port: ${SERVER_PORT:8000}
+  ssl:
+    enabled: ${SSL_ENABLED:false}
+    key-store: ${KEYSTORE_PATH}
+    key-store-password: ${KEYSTORE_PASSWORD:gokul656}
+    key-store-type: PKCS12
+
+spring:
+  application:
+    name: api-gateway
+
+  # Distributed tracing
+  sleuth:
+    enabled: ${TRACING_ENABLED:false}
+  zipkin:
+    baseUrl: http://localhost:9411/
+
+  cloud:
+    consul:
+      enabled: false
+      host: localhost
+      port: 8500
+      config:
+        enabled: false
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+      routes:
+        - id: USER-SERVICE
+          uri: http://localhost:8001
+          predicates:
+            - Path=/users/**
+        - id: PRODUCT-SERVICE
+          uri: http://localhost:8002
+          predicates:
+            - Path=/products/**

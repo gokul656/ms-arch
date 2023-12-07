@@ -2,56 +2,6 @@ server:
   port: ${SERVER_PORT:8002}
 
 spring:
+  profiles.active: ${ACTIVE_PROFILE:dev}
   application:
-    name: PRODUCT-SERVICE
-
-  # Database
-  datasource:
-    url: jdbc:mysql://storage-service/ms_arch?createDatabaseIfNotExist=true
-    username: malware
-    password: userpassword
-    driverClassName: com.mysql.cj.jdbc.Driver
-  jpa:
-    open-in-view: false
-    generate-dll: true
-    show-sql: false
-    hibernate:
-      ddl-auto: update
-
-  # CORS
-  web.origins: > 
-    http://localhost:8001
-
-  # Distributed tracing
-  zipkin:
-    baseUrl: http://tracing-service:9411/
-  sleuth:
-    enabled: ${TRACING_ENABLED:false}
-
-  # Cache
-  redis:
-    host: cache-service
-    port: 6379
-  cache:
-    type: redis
-    redis:
-      cache-null-values: true
-      time-to-live: 5000
-
-  cloud:
-    # Service discovery
-    consul:
-      host: discovery-service
-      port: 8500
-      discovery:
-        instance-id: ${spring.application.name}:${random.int[1,999999]}
-
-# Health check endpoints
-management:
-  endpoint:
-    shutdown:
-      enabled: true
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+    name: product-service

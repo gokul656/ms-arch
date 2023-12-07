@@ -2,9 +2,6 @@ server:
   port: 6001
 
 spring:
-  application:
-    name: AUTH-SERVICE
-
   # Database
   datasource:
     url: jdbc:tc:mysql:8.0//ms_arch_test?createDatabaseIfNotExist=true
@@ -13,7 +10,7 @@ spring:
     driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
-    show-sql: true
+    show-sql: false
     open-in-view: false
     generate-dll: true
     hibernate:
