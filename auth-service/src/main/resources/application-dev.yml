@@ -8,8 +8,8 @@ spring:
   # Database
   datasource:
     url: jdbc:mysql://localhost:3306/ms_arch?createDatabaseIfNotExist=true
-    username: user
-    password: password
+    username: terareum
+    password: Terareum@2023
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
